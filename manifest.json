@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+
+  "name": "Evil Censor",
+  "description": "Blocks certain sites for demonstration purposes.",
+  "version": "1.0",
+  "options_page": "options.html",
+  "permissions": [
+    "proxy",
+    "webRequest",
+    "webRequestBlocking",
+    "*://*/*"
+  ],
+  "background": {
+    "scripts": ["js/background.js"]
+  },
+  "browser_action": {
+    "default_icon": "img/good.png"
+  }
+}
