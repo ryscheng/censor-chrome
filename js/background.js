@@ -30,3 +30,16 @@ chrome.browserAction.onClicked.addListener(function() {
   }
 });
 
+//Check proxy settings every second and turn blocking off if set
+function checkProxy() {
+  console.log('Checking proxy settings');
+  chrome.proxy.settings.get({'incognito': false}, function(config) {
+    if (config && config.value && config.value.mode && 
+         (config.value.mode == 'pac_script' || config.value.mode == 'fixed_servers')) {
+      console.log("Chrome Proxy Settings are set. Turning censorship off");
+      state = 0;
+    }
+  });
+  setTimeout(checkProxy, 1000);
+};
+setTimeout(checkProxy, 1000);
