@@ -1,22 +1,35 @@
 console.log("Evil Censor");
-var RULES = {
+var REDIR_RULES = {
   '://twitter.com': 'http://123.123.123.123',
   'balatarin.com': 'http://123.123.123.123',
+  'youtube.com': 'http://123.123.123.123',
   'http://www.nytimes.com/2013/10/14/opinion/the-bay-of-bengal-in-peril-from-climate-change.html': 'http://www.nytimes.com/2013/10/14/opinion/the-bay-of-bengal-in-peril-from-climate-change.htm',
   'http://www.nytimes.com/2013/10/14/us/politics/budget-and-debt-limit-debate.html': 'http://www.nytimes.com/2013/10/14/us/politics/budget-and-debt-limit-debate.htm',
   'http://www.nytimes.com/2013/10/17/us/congress-budget-debate.html': 'http://www.nytimes.com/2013/10/17/us/congress-budget-debate.htm',
+  'http://www.nytimes.com/2013/10/18/us/politics/government-reopens.html':'http://www.nytimes.com/2013/10/18/us/politics/government-reopens.htm',
+};
+var INJECT_RULES = {
+  'http://www.nytimes.com/': 'js/nytimes.js',
 };
 var intendedState = 0;
 var actualState = 0;
 
 chrome.webRequest.onBeforeRequest.addListener(function(details) { 
   if (actualState == 1) {
-    var rulesObj = RULES;
-    for (var k in rulesObj) {
-      if (rulesObj.hasOwnProperty(k) && details.url.indexOf(k) != -1) {
+    for (var k in REDIR_RULES) {
+      if (REDIR_RULES.hasOwnProperty(k) && details.url.indexOf(k) != -1) {
         console.log(JSON.stringify(details));
-        console.log("Redirecting to " + rulesObj[k]);
-        return {redirectUrl: rulesObj[k]};
+        console.log("Redirecting to " + REDIR_RULES[k]);
+        return {redirectUrl: REDIR_RULES[k]};
+      }
+    }
+    for (var k in INJECT_RULES) {
+      if (INJECT_RULES.hasOwnProperty(k) && details.url == k) {
+        console.log(JSON.stringify(details));
+        console.log("Injecting script " + INJECT_RULES[k]);
+        //setTimeout(chrome.tabs.executeScript.bind({}, null, {file: INJECT_RULES[k]}), 0);
+        chrome.tabs.executeScript(null, {file: INJECT_RULES[k]});
+        return;
       }
     }
   }
