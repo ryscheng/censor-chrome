@@ -25,15 +25,17 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
     }
     for (var k in INJECT_RULES) {
       if (INJECT_RULES.hasOwnProperty(k) && details.url == k) {
+        var opts = {file: INJECT_RULES[k], runAt: "document_idle"};
         console.log(JSON.stringify(details));
         console.log("Injecting script " + INJECT_RULES[k]);
-        //setTimeout(chrome.tabs.executeScript.bind({}, null, {file: INJECT_RULES[k]}), 0);
-        chrome.tabs.executeScript(null, {file: INJECT_RULES[k]});
+        setTimeout(chrome.tabs.executeScript.bind({}, null, opts), 0);
+        //chrome.tabs.executeScript(null, opts);
         return;
       }
     }
   }
 },{urls: ["<all_urls>"]},["blocking","requestBody"]);
+chrome.webRequest.handlerBehaviorChanged(function() {});
 
 chrome.browserAction.onClicked.addListener(function() {
   if (intendedState == 0) {
