@@ -29,15 +29,22 @@ chrome.webRequest.onCompleted.addListener(function(details) {
   if (actualState == 1) {
     for (var k in INJECT_RULES) {
       if (INJECT_RULES.hasOwnProperty(k) && details.url == k) {
+        var opts = {file: INJECT_RULES[k], runAt: "document_idle"};
         console.log(JSON.stringify(details));
         console.log("Injecting script " + INJECT_RULES[k]);
+
         //setTimeout(chrome.tabs.executeScript.bind({}, null, {file: INJECT_RULES[k]}), 0);
         chrome.tabs.executeScript(details.tabId, {file: INJECT_RULES[k]});
         return;
       }
     }
   }
+<<<<<<< HEAD
 },{urls: ["<all_urls>"]},[]);
+=======
+},{urls: ["<all_urls>"]},["blocking","requestBody"]);
+chrome.webRequest.handlerBehaviorChanged(function() {});
+>>>>>>> 7a654ae5507566d8e3df6bbed52cbfcb7ee947b0
 
 chrome.browserAction.onClicked.addListener(function() {
   if (intendedState == 0) {
