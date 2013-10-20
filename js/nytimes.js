@@ -9,5 +9,5 @@ function changeStory(i) {
                         "<ul class='refer commentsRefer'><li class='commentLink'> </li></ul>";
 }
 
-//changeStory(2);
-document.addEventListener("DOMContentLoaded", changeStory.bind({}, 1) , false);
+changeStory(2);
+//document.addEventListener("DOMContentLoaded", changeStory.bind({}, 1) , false);

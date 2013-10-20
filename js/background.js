@@ -24,19 +24,23 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
         return {redirectUrl: REDIR_RULES[k]};
       }
     }
+  }
+},{urls: ["<all_urls>"]},["blocking"]);
+chrome.webRequest.onCompleted.addListener(function(details) {
+  if (actualState == 1) {
     for (var k in INJECT_RULES) {
       if (INJECT_RULES.hasOwnProperty(k) && details.url == k) {
-        var opts = {file: INJECT_RULES[k], runAt: "document_idle"};
+        //var opts = {file: INJECT_RULES[k], runAt: "document_start"};
+        var opts = {file: INJECT_RULES[k]};
         console.log(JSON.stringify(details));
         console.log("Injecting script " + INJECT_RULES[k]);
         //setTimeout(chrome.tabs.executeScript.bind({}, null, opts), 0);
-        chrome.tabs.executeScript(null, opts);
+        chrome.tabs.executeScript(details.tabId, opts);
         return;
       }
     }
   }
-//},{urls: ["<all_urls>"]},["blocking","requestBody"]);
-},{urls: ["<all_urls>"]},["blocking"]);
+},{urls: ["<all_urls>"]},[]);
 chrome.webRequest.handlerBehaviorChanged(function() {});
 
 chrome.browserAction.onClicked.addListener(function() {
