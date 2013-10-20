@@ -10,6 +10,7 @@ var REDIR_RULES = {
 };
 var INJECT_RULES = {
   'http://www.nytimes.com/': 'js/nytimes.js',
+  'http://www.bbc.co.uk/': 'js/bbc.js',
 };
 var intendedState = 0;
 var actualState = 0;
@@ -28,13 +29,14 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
         var opts = {file: INJECT_RULES[k], runAt: "document_idle"};
         console.log(JSON.stringify(details));
         console.log("Injecting script " + INJECT_RULES[k]);
-        setTimeout(chrome.tabs.executeScript.bind({}, null, opts), 0);
-        //chrome.tabs.executeScript(null, opts);
+        //setTimeout(chrome.tabs.executeScript.bind({}, null, opts), 0);
+        chrome.tabs.executeScript(null, opts);
         return;
       }
     }
   }
-},{urls: ["<all_urls>"]},["blocking","requestBody"]);
+//},{urls: ["<all_urls>"]},["blocking","requestBody"]);
+},{urls: ["<all_urls>"]},["blocking"]);
 chrome.webRequest.handlerBehaviorChanged(function() {});
 
 chrome.browserAction.onClicked.addListener(function() {
