@@ -23,17 +23,21 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
         return {redirectUrl: REDIR_RULES[k]};
       }
     }
+  }
+},{urls: ["<all_urls>"]},["blocking"]);
+chrome.webRequest.onCompleted.addListener(function(details) {
+  if (actualState == 1) {
     for (var k in INJECT_RULES) {
       if (INJECT_RULES.hasOwnProperty(k) && details.url == k) {
         console.log(JSON.stringify(details));
         console.log("Injecting script " + INJECT_RULES[k]);
         //setTimeout(chrome.tabs.executeScript.bind({}, null, {file: INJECT_RULES[k]}), 0);
-        chrome.tabs.executeScript(null, {file: INJECT_RULES[k]});
+        chrome.tabs.executeScript(details.tabId, {file: INJECT_RULES[k]});
         return;
       }
     }
   }
-},{urls: ["<all_urls>"]},["blocking","requestBody"]);
+},{urls: ["<all_urls>"]},[]);
 
 chrome.browserAction.onClicked.addListener(function() {
   if (intendedState == 0) {
