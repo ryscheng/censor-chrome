@@ -1,12 +1,10 @@
 console.log("Modified by Censor Chrome");
 
 function changeStory(i) {
-  var story = document.getElementById('news_hero');
-  story.innerHTML = "<div class='title image_first  '> <a rev='news|homepage|na|r|t|i|hero|content' href='' title='Google Ideas Summit Cancelled' class='heroLink'> " +
-                        "<span class='gel-wrapper'><span class='gel gel_icon_'></span></span> " +
-                        "<img src='http://www.google.com/ideas/images/ideas-logo.png' alt='' height='171' width='304' />" +
-                        "<span class='title'>Google Ideas Summit Cancelled</span>  </a> " +
-                        "<p class='summary'>In an embarrassing turn of events, the Google Ideas Summit has just been cancelled. Why didn't they prepare for this scenario? Read more to find out.</p> </div>";
+//  var story = document.getElementById('news_hero');
+  var story = document.getElementById('third-story');
+  story.innerHTML = "<div class='large-image'> <h2i class='secondary-story-header'> <a class='story' href=''><img src='http://www.blackheritagetodayuk.com/wp-content/uploads/2011/10/london-school-of-economics-logo-300x300.jpg'> LSE MOVE ANNOUNCEMENT SHOCKER</a></h2> " +
+  "<p>The London School of Economics has announced that it is moving it’s campus to Lichtenstein. The LSE will keep it’s branding and three letter logo despite. The soon-to-be Lichtenstein School of Economics will move in 2014. Students not willing to move with the institution will be allowed to complete their degree online… </p>";
 }
 
 changeStory(2);

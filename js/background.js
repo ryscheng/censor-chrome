@@ -10,7 +10,8 @@ var REDIR_RULES = {
 };
 var INJECT_RULES = {
   'http://www.nytimes.com/': 'js/nytimes.js',
-  'http://www.bbc.co.uk/': 'js/bbc.js',
+  'http://www.bbc.com/news/': 'js/bbc.js',
+  'http://www.bbc.co.uk/news/': 'js/bbc.js',
 };
 var intendedState = 0;
 var actualState = 0;
@@ -29,7 +30,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 chrome.webRequest.onCompleted.addListener(function(details) {
   if (actualState == 1) {
     for (var k in INJECT_RULES) {
-      if (INJECT_RULES.hasOwnProperty(k) && details.url == k) {
+      if (INJECT_RULES.hasOwnProperty(k) && details.url.indexOf(k) == 0) {
         //var opts = {file: INJECT_RULES[k], runAt: "document_start"};
         var opts = {file: INJECT_RULES[k]};
         console.log(JSON.stringify(details));
